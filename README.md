@@ -19,17 +19,45 @@ _directory structure_
 
 _main.css_
 
-	@import(url="one.css");
-	@import(url="two.css");
+	@import url("one.css");
+	@import url("two.css");
 	body {
 		margin: 0;
 		padding: 0;
 	}
 
+_one.css_
+	
+	ul {
+		list-style: none;
+	}
+
+_two.css_
+
+	a {
+		text-decoration: none;
+	}
+
+
 ###usage###
 
 	$project> ./tools/css-concatenate.py ./style/main.css
 
+###produces###
+_main.css_
+
+	ul {
+		list-style: none;
+	}
+	a {
+		text-decoration: none;
+	}
+	body {
+		margin: 0;
+		padding: 0;
+	}
+
 ##known shortcomings##
 * Currently only supports @import from local disk.
-* Overwrites to input file
+* Not recursive; if resource itself has @imports, does not replace those.
+* Overwrites to input file.
