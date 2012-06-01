@@ -2,8 +2,10 @@
 
 import sys, os, fileinput, re
 
-double = re.compile('\"(.*?)\"')
-single = re.compile('\'(.*?)\'')
+double_quotes = re.compile('\"(.*?)\"')
+single_quotes = re.compile('\'(.*?)\'')
+non_quotes = re.compile('\((.*?)\)')
+trials = [double_quotes, single_quotes, non_quotes]
 
 def concat(filepath):
 	"""Replaces @import directives with resource file contents."""
@@ -12,7 +14,7 @@ def concat(filepath):
 		if '@import' in f.read():
 			for line in fileinput.input([path], inplace=1):
 				if '@import' in line:
-					url = get_path_from_import(line)
+					url = get_path_from_import(line, 0)
 					relpath = url if os.path.isabs(url) else get_directory_path(filepath) + '/' + url
 					if os.path.exists(relpath):
 						with open(relpath, 'r') as resource:
@@ -27,10 +29,15 @@ def find_first_from(line, exp):
 	found = re.findall(exp, line)
 	return found[0] if found else None
 
-def get_path_from_import(line):
-	"""Returns path from @import directive."""
-	f = find_first_from(line, double)
-	return f if f else find_first_from(line, single)
+def get_path_from_import(line, index):
+	"""Returns path from @import directive, recursively going through matches to find possible declaration."""
+	f = find_first_from(line, trials[index])
+	if f:
+		return f;
+	elif index < len(trials) - 1:
+		return get_path_from_import(line, index+1)
+	else:
+		return None
 
 def get_directory_path(filepath):
 	"""Returns the directory path from filepath."""
