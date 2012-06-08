@@ -12,7 +12,7 @@ def relative_directory_path(rootDirectory, subDirectory):
 	"""
 	common = os.path.commonprefix([rootDirectory, subDirectory])
 	if len(common) > 0:
-		return subDirectory.split(common)[1]
+		return subDirectory.split(common)[1][1:]
 	return ''
 
 def set_base64_filename_from_orig_path(filepath):
