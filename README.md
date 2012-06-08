@@ -85,7 +85,7 @@ _main.css_
 
 ###usage##
 	
-	$project> ./tools/css_datauri.py ./style
+	$project> ./tools/css_datauri.py style
 
 ###produces###
 _main.css_
@@ -97,3 +97,4 @@ _main.css_
 ##known shortcomings##
 * Overwrites CSS files; no option for -output directory. As such, it is recommended first to copy all files over to a distribution directory before running the css_datauri task.
 * Finds only relative paths in CSS.
+* If supplied path starts with './' or ends in '/', relative path detection does not work properly; for now, ensure that the supplied directory argument does not have a prefixed './' or trailing '/'.
