@@ -1,13 +1,15 @@
-"""Concatenates CSS files based on @import directives defined in a single CSS file."""
+"""Concatenates CSS files based on @import directives defined in a single CSS file and optionally deletes imported files from disk.
+	(c) Todd Anderson 2012 - http://www.custardbelly.com/blog, @_toddanderson_
+"""
 
-import sys, os, fileinput, re
+import getopt, sys, os, fileinput, re
 
 double_quotes = re.compile('\"(.*?)\"')
 single_quotes = re.compile('\'(.*?)\'')
 non_quotes = re.compile('\((.*?)\)')
 trials = [double_quotes, single_quotes, non_quotes]
 
-def concat(filepath):
+def concat(filepath, delete):
 	"""Replaces @import directives with resource file contents."""
 	path = filepath if os.path.isabs(filepath) else os.path.join(os.getcwd(), filepath)
 	with open(path, 'r+') as f:
@@ -19,6 +21,8 @@ def concat(filepath):
 					if os.path.exists(relpath):
 						with open(relpath, 'r') as resource:
 							sys.stdout.write(resource.read())
+						if delete is True:
+							os.remove(relpath)
 					else:
 						sys.stdout.write(line)
 				else:
@@ -46,4 +50,8 @@ def get_directory_path(filepath):
 	return fullrel[0] if fullrel else None
 
 if __name__ == '__main__':
-	concat(sys.argv[1])
+	delete = False
+	options, remainder = getopt.getopt(sys.argv[2:], 'delete', ['delete='])
+	if len(remainder) > 0:
+		delete = True if remainder[0] == 'true' else False
+	concat(sys.argv[1], delete)
