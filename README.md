@@ -62,7 +62,7 @@ _main.css_
 * Not recursive; if resource itself has @imports, does not replace those.
 * Overwrites to input file.
 
-#css_url2uri#
+#css_datauri#
 Data URI util.
 
 Traverses a directory and encodes asset files to base64 and replaces relative URL references in CSS files with the base64 string.
@@ -71,7 +71,7 @@ _directory structure_
 
 	|-project
 		|---tools
-			+- css_url2uri.py
+			+- css_datauri.py
 		|---style
 			|-----assets
 				+- image.png
@@ -85,15 +85,15 @@ _main.css_
 
 ###usage##
 	
-	$project> ./tools/css_url2uri.py ./style
+	$project> ./tools/css_datauri.py ./style
 
 ###produces###
 _main.css_
 
-	.walter {
+	.background {
 		background-image: url('data:img/jpg;base64,/9j/4AAQSkZJRgABAQ...'
 	}
 
 ##known shortcomings##
-* Overwrites CSS files; no option for -output directory. As such, it is recommended first to copy all files over to a distribution directory before running the css_url2uri task.
+* Overwrites CSS files; no option for -output directory. As such, it is recommended first to copy all files over to a distribution directory before running the css_datauri task.
 * Finds only relative paths in CSS.

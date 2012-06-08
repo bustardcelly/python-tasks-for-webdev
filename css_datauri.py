@@ -89,7 +89,7 @@ if __name__ == '__main__':
 	"""Expects path to directory with CSS files and assets to be base64 encoded.
 	   Traveres a directory and encodes al files matching /([^\s]+(\.(?i)(jpg|jpeg|png|gif|bmp))$)/, then locates the declaration of each file in CSS and replaces with base64 string (data:uri)self.
 
-	   $> python css_url2uri style/
+	   $> python css_datauri style/
 	"""
 	directory = sys.argv[1] if os.path.isabs(sys.argv[1]) else os.path.join(os.getcwd(), sys.argv[1])
 
