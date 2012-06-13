@@ -91,7 +91,7 @@ if __name__ == '__main__':
 
 	   $> python css_datauri style/
 	"""
-	directory = sys.argv[1] if os.path.isabs(sys.argv[1]) else os.path.join(os.getcwd(), sys.argv[1])
+	directory = sys.argv[1] if os.path.isabs(sys.argv[1]) else os.path.abspath(sys.argv[1])
 
 	encode_files_from_directory(directory)
 	replace_url_with_base64(directory)
